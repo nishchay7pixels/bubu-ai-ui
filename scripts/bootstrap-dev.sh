@@ -6,6 +6,7 @@ WEB_URL="http://127.0.0.1:4200"
 API_URL="http://127.0.0.1:3333"
 OLLAMA_URL="http://127.0.0.1:11434"
 MODEL_NAME="bubu-ai"
+MODELFILE_PATH="${BUBU_MODELFILE:-/Users/nishchay/Desktop/Workspace/ollama-assist/BubuAI.Modelfile}"
 
 NO_OPEN=false
 NO_RUN=false
@@ -46,9 +47,15 @@ check_ollama() {
     sleep 2
   fi
 
-  if ollama list 2>/dev/null | awk '{print $1}' | grep -q "^${MODEL_NAME}\(:.*\)\?$"; then
+  if [ -f "$MODELFILE_PATH" ]; then
+    echo "Using Modelfile: $MODELFILE_PATH"
+    echo "Creating/updating model '${MODEL_NAME}' from Modelfile..."
+    ollama create "$MODEL_NAME" -f "$MODELFILE_PATH"
+    echo "Model '${MODEL_NAME}' is ready from Modelfile."
+  elif ollama list 2>/dev/null | awk '{print $1}' | grep -q "^${MODEL_NAME}\(:.*\)\?$"; then
     echo "Ollama model '${MODEL_NAME}' is available."
   else
+    echo "Modelfile not found at: $MODELFILE_PATH"
     echo "Pulling Ollama model '${MODEL_NAME}'..."
     ollama pull "$MODEL_NAME"
   fi

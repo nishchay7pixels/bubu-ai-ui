@@ -69,7 +69,21 @@ Install locally:
 Ollama download:
 - <https://ollama.com/download>
 
-Ensure `bubu-ai` model exists (the setup script can pull it automatically).
+### Required Modelfile source of truth
+This project expects your model definition file at:
+
+`/Users/nishchay/Desktop/Workspace/ollama-assist/BubuAI.Modelfile`
+
+Current expected content (as provided):
+- `FROM qwen2.5:7b-instruct`
+- custom system prompt/tone/behavior
+- parameters (`temperature`, `top_p`, `repeat_penalty`, `num_ctx`, `num_predict`)
+
+If your Modelfile is elsewhere, set env var before running setup:
+
+```bash
+export BUBU_MODELFILE="/absolute/path/to/BubuAI.Modelfile"
+```
 
 ---
 
@@ -85,10 +99,11 @@ This script automatically:
 1. checks required commands (`node`, `npm`, `curl`, `lsof`)
 2. installs npm dependencies if missing/out-of-sync
 3. checks Ollama health
-4. pulls `bubu-ai` model if missing
-5. frees ports `4200` and `3333` if occupied
-6. starts API + frontend
-7. opens browser at `http://127.0.0.1:4200`
+4. **creates/updates `bubu-ai` from `BubuAI.Modelfile`**
+5. falls back to `ollama pull bubu-ai` if Modelfile is missing
+6. frees ports `4200` and `3333` if occupied
+7. starts API + frontend
+8. opens browser at `http://127.0.0.1:4200`
 
 Dry check (no run / no open):
 
@@ -221,11 +236,20 @@ curl http://127.0.0.1:11434/api/tags
 If needed:
 ```bash
 ollama serve
-ollama pull bubu-ai
+```
+
+### Modelfile not found
+By default setup looks for:
+`/Users/nishchay/Desktop/Workspace/ollama-assist/BubuAI.Modelfile`
+
+Override path:
+```bash
+export BUBU_MODELFILE="/absolute/path/to/BubuAI.Modelfile"
+npm run setup:dev
 ```
 
 ### Model errors from chat
-Verify console model name matches an installed Ollama model.
+Verify console model name matches built model (`bubu-ai`) and that `ollama create bubu-ai -f <Modelfile>` succeeds.
 
 ### npm/node warning
 You may see an npm warning about Node version support. The project can still run; for best compatibility, use an LTS Node version supported by your npm/Angular toolchain.
