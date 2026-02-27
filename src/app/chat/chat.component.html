@@ -1,0 +1,85 @@
+<section class="chat-page">
+  <div class="hero-card" [attr.data-emotion]="currentEmotion.key">
+    <button
+      type="button"
+      class="face-text-toggle icon-only"
+      [class.off]="!showFaceText"
+      (click)="toggleFaceText()"
+      [attr.aria-label]="showFaceText ? 'Hide face text' : 'Show face text'"
+      [title]="showFaceText ? 'Hide text' : 'Show text'"
+    >
+      <span class="material-symbols-rounded">info</span>
+    </button>
+
+    <div
+      class="robot-face"
+      [attr.data-expression]="currentExpression.key"
+      [class.look-down]="isUserTyping && !loading"
+      (mousemove)="onFaceHover($event)"
+      (mouseleave)="onFaceLeave()"
+    >
+      <span class="eye left"><span class="iris"></span></span>
+      <span class="eye right"><span class="iris"></span></span>
+      <span class="status-text" *ngIf="currentExpression.key === 'bored' || currentExpression.key === 'sleeping'">{{ currentExpression.key === 'sleeping' ? 'Zz' : 'BORED' }}</span>
+    </div>
+
+    <div class="hero-copy" *ngIf="showFaceText">
+      <h1>Bubu Emo Robot</h1>
+      <div class="emotion-badge">
+        <span class="emoji">{{ currentExpression.icon }}</span>
+        <div>
+          <h2>{{ currentExpression.name }}</h2>
+          <p>{{ currentExpression.description }}</p>
+        </div>
+      </div>
+      <p class="tone-row">
+        Your tone: <strong>{{ userToneName }}</strong> | Bubu tone: <strong>{{ assistantToneName }}</strong>
+      </p>
+      <p>Expressive local AI companion powered by your Ollama model <strong>{{ config.model }}</strong>.</p>
+    </div>
+  </div>
+
+  <div class="chat-shell">
+    <div #messagesContainer class="messages">
+      <article *ngFor="let msg of messages" [class.user]="msg.role === 'user'" [class.assistant]="msg.role === 'assistant'">
+        <h4>{{ msg.role === 'user' ? 'You' : 'Bubu' }}</h4>
+        <p>{{ msg.content }}</p>
+      </article>
+      <p class="empty" *ngIf="!messages.length">Start chatting. Bubu can use enabled tools and skills from <a routerLink="/console">console</a>.</p>
+      <p class="typing" *ngIf="loading">Bubu is thinking...</p>
+      <p class="error" *ngIf="error">{{ error }}</p>
+    </div>
+
+    <form (ngSubmit)="sendMessage()" class="composer">
+      <textarea
+        [(ngModel)]="draft"
+        (ngModelChange)="onDraftTyping()"
+        (keydown.enter)="onComposerEnter($event)"
+        name="draft"
+        rows="3"
+        placeholder="Talk to Bubu... Try commands like /sleep /laugh /cry /curious"
+      ></textarea>
+      <div class="controls">
+        <button type="button" class="ghost btn-with-icon icon-only" (click)="clearHistory()" aria-label="Clear chat" title="Clear chat">
+          <span class="material-symbols-rounded">delete_sweep</span>
+        </button>
+        <button type="submit" class="btn-with-icon" [disabled]="loading || !draft.trim()">
+          <span class="material-symbols-rounded">send</span>
+          <span>Send</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <details class="command-help">
+    <summary>Expression Commands</summary>
+    <p class="command-help-subtle">Type commands in chat with or without `/` prefix. Example: `/laugh` or `laugh`.</p>
+    <ul>
+      <li *ngFor="let item of commandHelp">
+        <code>/{{ item.command }}</code>
+        <span class="aliases" *ngIf="item.aliases">aliases: {{ item.aliases }}</span>
+        <span>{{ item.description }}</span>
+      </li>
+    </ul>
+  </details>
+</section>

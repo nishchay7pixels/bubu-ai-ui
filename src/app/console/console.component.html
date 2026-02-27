@@ -1,0 +1,127 @@
+<section class="console-page">
+  <div class="console-head">
+    <h1>Bubu Control Console</h1>
+    <button class="danger btn-with-icon" (click)="resetToDefaults()">
+      <span class="material-symbols-rounded">restart_alt</span>
+      <span>Reset Defaults</span>
+    </button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Identity</h2>
+      <label>
+        Display Name
+        <input [(ngModel)]="config.displayName" (change)="saveConfig()" />
+      </label>
+      <label>
+        Short Bio
+        <textarea rows="2" [(ngModel)]="config.shortBio" (change)="saveConfig()"></textarea>
+      </label>
+      <label>
+        Persona Prompt
+        <textarea rows="4" [(ngModel)]="config.persona" (change)="saveConfig()"></textarea>
+      </label>
+      <label>
+        Response Style
+        <textarea rows="2" [(ngModel)]="config.responseStyle" (change)="saveConfig()"></textarea>
+      </label>
+      <label>
+        Verbosity
+        <select [(ngModel)]="config.verbosity" (change)="saveConfig()">
+          <option value="concise">Concise</option>
+          <option value="balanced">Balanced</option>
+          <option value="detailed">Detailed</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Runtime</h2>
+      <label>
+        Model
+        <input [(ngModel)]="config.model" (change)="saveConfig()" />
+      </label>
+      <label>
+        Ollama Base URL
+        <input [(ngModel)]="config.ollamaBaseUrl" (change)="saveConfig()" />
+      </label>
+      <label>
+        Temperature
+        <input type="number" min="0" max="1" step="0.1" [(ngModel)]="config.temperature" (change)="saveConfig()" />
+      </label>
+      <label>
+        Context Window (messages)
+        <input type="number" min="2" max="30" step="1" [(ngModel)]="config.maxHistoryMessages" (change)="saveConfig()" />
+      </label>
+      <label>
+        Idle Sleep Timeout (seconds)
+        <input type="number" min="10" max="600" step="5" [(ngModel)]="config.idleTimeoutSeconds" (change)="saveConfig()" />
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Behavior</h2>
+      <label class="toggle-row">
+        <input type="checkbox" [(ngModel)]="config.enableCommandMode" (change)="saveConfig()" />
+        Enable command mode in chat
+      </label>
+      <label class="toggle-row">
+        <input type="checkbox" [(ngModel)]="config.enableAutoEmotion" (change)="saveConfig()" />
+        Auto-detect emotions from AI replies
+      </label>
+      <label class="toggle-row">
+        <input type="checkbox" [(ngModel)]="config.enableTypingGaze" (change)="saveConfig()" />
+        Eye tracking while typing
+      </label>
+      <label class="toggle-row">
+        <input type="checkbox" [(ngModel)]="config.enableForeheadReaction" (change)="saveConfig()" />
+        Forehead hover shy reaction
+      </label>
+    </div>
+
+    <div class="card">
+      <h2>Skills</h2>
+      <label>Name <input [(ngModel)]="skillName" /></label>
+      <label>Instructions <textarea rows="3" [(ngModel)]="skillInstructions"></textarea></label>
+      <button class="btn-with-icon" (click)="addSkill()">
+        <span class="material-symbols-rounded">add_circle</span>
+        <span>Add Skill</span>
+      </button>
+
+      <ul>
+        <li *ngFor="let skill of config.skills">
+          <input type="checkbox" [(ngModel)]="skill.active" (change)="saveConfig()" />
+          <strong>{{ skill.name }}</strong>
+          <button class="danger btn-with-icon" (click)="removeSkill(skill.id)">
+            <span class="material-symbols-rounded">delete</span>
+            <span>Remove</span>
+          </button>
+          <p>{{ skill.instructions }}</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Tools</h2>
+      <label>Name <input [(ngModel)]="toolName" /></label>
+      <label>Description <textarea rows="3" [(ngModel)]="toolDescription"></textarea></label>
+      <button class="btn-with-icon" (click)="addTool()">
+        <span class="material-symbols-rounded">build_circle</span>
+        <span>Add Tool</span>
+      </button>
+
+      <ul>
+        <li *ngFor="let tool of config.tools">
+          <input type="checkbox" [(ngModel)]="tool.active" (change)="saveConfig()" />
+          <strong>{{ tool.name }}</strong>
+          <button class="danger btn-with-icon" (click)="removeTool(tool.id)">
+            <span class="material-symbols-rounded">delete</span>
+            <span>Remove</span>
+          </button>
+          <p>{{ tool.description }}</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

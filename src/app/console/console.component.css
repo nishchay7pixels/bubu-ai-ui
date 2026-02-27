@@ -1,0 +1,96 @@
+.console-page {
+  color: #f3f7ff;
+}
+
+.console-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.console-page h1 {
+  margin-top: 0;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  border-radius: 16px;
+  padding: 1rem;
+  background: rgba(20, 27, 46, 0.8);
+  border: 1px solid rgba(169, 191, 255, 0.2);
+  display: grid;
+  gap: 0.5rem;
+}
+
+label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+label.toggle-row {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid #334c7d;
+  background: #0e1731;
+  color: #f6f8ff;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.5rem 0.85rem;
+  cursor: pointer;
+  background: #65ecb6;
+  color: #0e3a2b;
+  width: fit-content;
+}
+
+.btn-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-with-icon .material-symbols-rounded {
+  font-size: 1.05rem;
+}
+
+button.danger {
+  background: #ff8d8d;
+  color: #421010;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+li {
+  border-radius: 10px;
+  background: rgba(8, 14, 28, 0.9);
+  padding: 0.55rem;
+}
+
+li p {
+  margin: 0.45rem 0 0;
+  font-size: 0.9rem;
+  color: #c8d4fa;
+}

@@ -1,0 +1,27 @@
+<div class="app-shell">
+  <header>
+    <a
+      class="nav-icon"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      aria-label="Chat"
+      title="Chat"
+    >
+      <span class="material-symbols-rounded">chat_bubble</span>
+    </a>
+    <a
+      class="nav-icon"
+      routerLink="/console"
+      routerLinkActive="active"
+      aria-label="Console"
+      title="Console"
+    >
+      <span class="material-symbols-rounded">terminal</span>
+    </a>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

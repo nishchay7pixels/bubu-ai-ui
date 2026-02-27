@@ -1,0 +1,47 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Trebuchet MS', 'Gill Sans', sans-serif;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 10%, #192f55, #0a101f 40%, #130d19 100%);
+  color: #fff;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.nav-icon {
+  width: 42px;
+  height: 42px;
+  text-decoration: none;
+  color: #d1dcfa;
+  border: 1px solid #4b5f90;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  background: rgba(9, 19, 38, 0.48);
+}
+
+.nav-icon .material-symbols-rounded {
+  font-size: 1.2rem;
+}
+
+.nav-icon.active {
+  background: #7ddcb5;
+  color: #0f3d2c;
+  border-color: #7ddcb5;
+}
+
+main {
+  width: min(1024px, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: 0 0 1.4rem;
+}
