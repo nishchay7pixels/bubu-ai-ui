@@ -43,3 +43,26 @@ export interface ChatApiResponse {
   reply: string;
   emotion: EmotionKey;
 }
+
+export interface SearchFileResultItem {
+  path: string;
+  line: number;
+  snippet: string;
+}
+
+export interface SearchFilesToolResponse {
+  ok: boolean;
+  data?: {
+    query: string;
+    results: SearchFileResultItem[];
+    truncated: boolean;
+  };
+  error?: string;
+}
+
+export interface SearchFilesToolInput {
+  query: string;
+  glob?: string;
+  max_results?: number;
+  max_file_size_bytes?: number;
+}

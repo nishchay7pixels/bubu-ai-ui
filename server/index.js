@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { getToolCatalog, runTool } = require('./agent-tools');
 
 const app = express();
 const port = 3333;
@@ -58,6 +59,23 @@ app.get('/api/health', async (req, res) => {
     res.json({ ok: response.ok });
   } catch {
     res.status(503).json({ ok: false, error: 'Ollama is unavailable.' });
+  }
+});
+
+app.get('/api/tools', (req, res) => {
+  return res.json({ ok: true, data: getToolCatalog() });
+});
+
+app.post('/api/tools/:name', async (req, res) => {
+  try {
+    const result = await runTool(req.params.name, req.body ?? {});
+    return res.json(result);
+  } catch (error) {
+    const status = Number.isInteger(error?.status) ? error.status : 500;
+    return res.status(status).json({
+      ok: false,
+      error: error?.message || 'Tool execution failed.'
+    });
   }
 });
 
